@@ -16,7 +16,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import com.msmaker.financas.model.entity.Usuario;
 
 @ExtendWith(SpringExtension.class)
-@ActiveProfiles("test")
+@ActiveProfiles("test") // prifile de test (properties)
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = Replace.NONE)
 public class UsuarioRepositoryTest {
@@ -38,6 +38,17 @@ public class UsuarioRepositoryTest {
 
 		// verificacao
 		Assertions.assertThat(result).isTrue();
+	}
 
+	@Test
+	public void deveRetornarFalsoQuandoNaoHouverUsuarioCadastradoComOEmail() {
+		// cenário
+		repository.deleteAll();
+
+		// ação
+		boolean result = repository.existsByEmail("usuario@email.com");
+
+		// verificação
+		Assertions.assertThat(result).isFalse();
 	}
 }
